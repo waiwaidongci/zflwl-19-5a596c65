@@ -1,0 +1,27 @@
+schema_version = "1.3"
+
+[task]
+name = "local/poisson-mixture-source-recovery"
+description = "Recover latent two-source Poisson emission rates and mixture weight from unlabeled detector window counts."
+authors = [{ name = "yuenlai" }]
+keywords = ["statistical-analysis", "mixture-model", "expectation-maximization", "poisson"]
+
+[agent]
+timeout_sec = 3600
+
+[environment]
+build_timeout_sec = 600
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+gpus = 0
+allow_internet = true
+
+[verifier]
+timeout_sec = 180
+
+[metadata]
+difficulty = "hard"
+category = "statistical-analysis"
+tags = ["maximum-likelihood", "latent-class", "counting-data", "mixture-model"]
+expert_time_estimate = "50m"

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "weight_policy": {
+    "version": 1,
+    "basis": "business_priority",
+    "core_min_share": 0.5
+  },
+  "gate_tests": [
+    "test_outputs.py::test_gate_recovers_two_component_likelihood"
+  ],
+  "tests": {
+    "test_outputs.py::test_balanced_counts_recover_rates_and_weight": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "两源率和低源占比的联合恢复是计数监测能否判读的核心输出。"
+    },
+    "test_outputs.py::test_minor_source_is_not_collapsed_into_background": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "少数源被最大似然模型吞掉会让值班员漏掉真正漂移的探头。"
+    },
+    "test_outputs.py::test_large_window_set_converges_to_global_likelihood": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "公开大样本下仍需落到全局似然最优，避免局部初值决定结论。"
+    },
+    "test_outputs.py::test_public_upper_window_set_finishes_within_deadline": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "三百窗口的公开上限必须能按时完成，才能作为班次内诊断工具。"
+    },
+    "test_outputs.py::test_minimum_window_count_is_accepted": {
+      "weight": 0.05,
+      "priority": "boundary",
+      "rationale": "最少合法窗口数仍应进入估计，避免临界批次被无端停用。"
+    },
+    "test_outputs.py::test_too_few_windows_are_refused": {
+      "weight": 0.05,
+      "priority": "boundary",
+      "rationale": "窗口不足时双源参数不稳定，应拒绝而不是输出偶然拟合。"
+    },
+    "test_outputs.py::test_boolean_count_is_refused": {
+      "weight": 0.05,
+      "priority": "schema",
+      "rationale": "布尔值混入计数字段会悄悄改变似然输入，必须按类型边界拦截。"
+    },
+    "test_outputs.py::test_extra_input_key_keeps_existing_result_bytes": {
+      "weight": 0.04,
+      "priority": "schema",
+      "rationale": "未知字段与失败不改旧结果共同保护上一班次的有效统计报告。"
+    },
+    "test_outputs.py::test_success_writes_silent_canonical_json": {
+      "weight": 0.04,
+      "priority": "recovery",
+      "rationale": "稳定的紧凑结果字节便于统计平台按班次重放和比对。"
+    },
+    "test_outputs.py::test_unknown_schema_is_refused": {
+      "weight": 0.03,
+      "priority": "schema",
+      "rationale": "未知计数协议若被接受，会以错误窗口口径估计探头漂移。"
+    },
+    "test_outputs.py::test_rate_ceiling_lower_bound_is_accepted": {
+      "weight": 0.04,
+      "priority": "boundary",
+      "rationale": "率上限恰好为五时必须仍可估计，否则公开闭区间下界会被误拒。"
+    },
+    "test_outputs.py::test_rate_ceiling_below_five_is_refused": {
+      "weight": 0.04,
+      "priority": "boundary",
+      "rationale": "率上限低于公开下界时须拒收，避免越界取样被当成有效监测批次。"
+    },
+    "test_outputs.py::test_equal_initial_rates_are_skipped_before_em": {
+      "weight": 0.03,
+      "priority": "boundary",
+      "rationale": "等价初值必须跳过，否则非递增起点会破坏低率在前的参数契约。"
+    },
+    "test_outputs.py::test_observations_require_identifier_and_count": {
+      "weight": 0.03,
+      "priority": "schema",
+      "rationale": "缺少计数的窗口若被当成零，会系统性压低两个发射源的平均率。"
+    }
+  }
+}
