@@ -10,3 +10,6 @@ RUN mkdir -p /logs/verifier
 
 WORKDIR /app
 COPY app /app
+
+# Stable verifier interpreter path (the verifier is invoked with -S -P -B).
+RUN ln -sf /usr/bin/python3 /usr/local/bin/python3
